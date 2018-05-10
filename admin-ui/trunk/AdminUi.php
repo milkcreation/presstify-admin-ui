@@ -6,14 +6,14 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstiFy
  * @namespace \tiFy\Plugins\AdminUi
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 namespace tiFy\Plugins\AdminUi;
 
-use tiFy\App\Plugin;
+use tiFy\Apps\AppController;
 
-class AdminUi extends Plugin
+final class AdminUi extends AppController
 {
     /**
      * CONSTRUCTEUR.
