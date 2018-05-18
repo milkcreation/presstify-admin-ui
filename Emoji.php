@@ -2,12 +2,10 @@
 
 namespace tiFy\Plugins\AdminUi;
 
-use tiFy\App\Traits\App as TraitsApp;
+use tiFy\Apps\AppController;
 
-class Emoji
+class Emoji extends AppController
 {
-    use TraitsApp;
-
     /**
      * CONSTRUCTEUR.
      *
@@ -15,6 +13,8 @@ class Emoji
      */
     public function __construct()
     {
+        parent::__construct();
+        
         $this->appAddAction('init');
         $this->appAddFilter('tiny_mce_plugins');
         $this->appAddFilter('wp_resource_hints', null, 10, 2);
