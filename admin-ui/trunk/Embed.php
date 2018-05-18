@@ -9,12 +9,10 @@
 
 namespace tiFy\Plugins\AdminUi;
 
-use tiFy\App\Traits\App as TraitsApp;
+use tiFy\Apps\AppController;
 
-class Embed
+class Embed extends AppController
 {
-    use TraitsApp;
-
     /**
      * Liste des options de désactivation des éléments de l'embed.
      * @var array
@@ -38,6 +36,8 @@ class Embed
      */
     public function __construct($options)
     {
+        parent::__construct();
+
         $this->options = ($options === true) ? $this->options : array_merge($this->options, $options);
 
         $this->appAddAction('init', null, 9999);
