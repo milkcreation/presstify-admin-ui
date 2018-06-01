@@ -37,23 +37,24 @@ final class AdminUi extends AppController
      * }
      */
     protected $attributes = [
-        'admin_bar_menu_logo' => '',
-        'remove_admin_bar_menu' => [],
-        'admin_footer_text'   => '',
-        'remove_menu' => [],
-        'unregister_widget' => [],
-        'remove_support_post' => [],
-        'remove_support_page' => [],
+        'admin_bar_menu_logo'       => '',
+        'remove_admin_bar_menu'     => [],
+        'admin_footer_text'         => '',
+        'remove_menu'               => [],
+        'unregister_widget'         => [],
+        'remove_support_post'       => [],
+        'remove_support_page'       => [],
         'remove_dashboard_meta_box' => [],
-        'remove_meta_box_post' => [],
-        'remove_meta_box_page' => [],
-        'disable_comment' => false,
-        'disable_post_category' => false,
-        'disable_post_tag' => false,
-        'disable_post' => false,
-        'disable_emoji' => false,
-        'disable_embed' => false,
-
+        'remove_meta_box_post'      => [],
+        'remove_meta_box_page'      => [],
+        'disable_comment'           => false,
+        'disable_post_category'     => false,
+        'disable_post_tag'          => false,
+        'disable_post'              => false,
+        'disable_emoji'             => false,
+        'disable_embed'             => false,
+        'disable_meta_tag'          => false,
+        'disable_rest_api'          => false
 
         ## Suppression de support des propriétés d'un type de post personnalisé (%%custom_post_type%%)
         ## ex: remove_support_%%custom_post_type%% : [ 'title', 'editor' ]
@@ -183,6 +184,14 @@ final class AdminUi extends AppController
 
         if ($embed_opts = $this->appConfig('disable_embed')) :
             new Embed($embed_opts);
+        endif;
+
+        if ($this->appConfig('disable_meta_tag')) :
+            new MetaTag();
+        endif;
+
+        if ($this->appConfig('disable_rest_api')) :
+            new RestApi();
         endif;
     }
 
