@@ -7,25 +7,23 @@ use tiFy\Apps\AppController;
 class Emoji extends AppController
 {
     /**
-     * CONSTRUCTEUR.
+     * Initialisation du controleur.
      *
      * @return void
      */
-    public function __construct()
+    public function appBoot()
     {
-        parent::__construct();
-        
         $this->appAddAction('init');
         $this->appAddFilter('tiny_mce_plugins');
         $this->appAddFilter('wp_resource_hints', null, 10, 2);
     }
 
     /**
-     * Initialisation globale.
+     * Initialisation globale de Wordpress.
      *
      * @return void
      */
-    final public function init()
+    public function init()
     {
         remove_action('wp_head', 'print_emoji_detection_script', 7);
         remove_action('admin_print_scripts', 'print_emoji_detection_script');
