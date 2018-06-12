@@ -157,10 +157,7 @@ final class AdminUi extends AppController
         endif;
 
         if ($this->appConfig('disable_post')) :
-            $this->appAddAction('admin_init', 'disable_post_dashboard_meta_box');
-            $this->appAddAction('admin_menu', 'disable_post_remove_menu');
-            $this->appAddFilter('nav_menu_meta_box_object', 'disable_post_nav_menu_meta_box_object');
-            $this->appAddAction('wp_before_admin_bar_render', 'disable_post_wp_before_admin_bar_render');
+            new Posts();
         endif;
 
         if ($this->appConfig('disable_comment')) :
@@ -452,55 +449,7 @@ final class AdminUi extends AppController
             $wp_admin_bar->remove_node($admin_bar_node);
         endforeach;
     }
-
-    /**
-     * Désactivation des interfaces relatives au type post
-     */
-    /**
-     * Suppression de la metaboxe de tableau de bord - édition rapide.
-     *
-     * @return void
-     */
-    public function disable_post_dashboard_meta_box()
-    {
-        remove_meta_box('dashboard_quick_press', 'dashboard', 'normal');
-    }
-
-    /**
-     * Suppression du menu d'édition.
-     *
-     * @return void
-     */
-    public function disable_post_remove_menu()
-    {
-        remove_menu_page('edit.php');
-    }
-
-    /**
-     * Désactivation de la metaboxe de menu
-     * @param string $post_type
-     *
-     * @return boolean|string
-     */
-    public function disable_post_nav_menu_meta_box_object($post_type)
-    {
-        if ($post_type->name === 'post') :
-            return false;
-        else :
-            return $post_type;
-        endif;
-    }
-
-    /**
-     * Désactivation de l'entrée de menu "nouveau" de la barre d'administration
-     */
-    public function disable_post_wp_before_admin_bar_render()
-    {
-        global $wp_admin_bar;
-
-        $wp_admin_bar->remove_node('new-post');
-    }
-
+    
     /**
      * Désactivation des interfaces relatives aux commentaires
      */
