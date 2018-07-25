@@ -6,7 +6,7 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstiFy
  * @namespace \tiFy\Plugins\AdminUi
- * @version 2.0.0
+ * @version 2.0.1
  */
 
 namespace tiFy\Plugins\AdminUi;
@@ -175,12 +175,12 @@ final class AdminUi extends AppController
             $this->appAddAction('init', 'disable_post_tag');
         endif;
 
-        if ($this->appConfig('disable_emoji')) :
-            new Emoji();
-        endif;
-
         if ($embed_opts = $this->appConfig('disable_embed')) :
             new Embed($embed_opts);
+        endif;
+
+        if ($this->appConfig('disable_emoji')) :
+            new Emoji();
         endif;
 
         if ($this->appConfig('disable_meta_tag')) :
