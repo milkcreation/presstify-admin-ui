@@ -41,9 +41,9 @@ class PostType extends AbstractAppDependency
 
             if (!is_admin() && ($pagenow != 'wp-login.php')) :
                 /* need to return a 404 when post_type `post` objects are found */
-                $this->appAddAction('posts_results', [$this, 'check_post_type']);
+                $this->app->appAddAction('posts_results', [$this, 'check_post_type']);
                 /* do not return any instances of post_type `post` */
-                $this->appAddFilter('pre_get_posts', [$this, 'remove_from_search_filter']);
+                $this->app->appAddFilter('pre_get_posts', [$this, 'remove_from_search_filter']);
             endif;
         endif;
     }
@@ -77,7 +77,7 @@ class PostType extends AbstractAppDependency
      *
      * @return void
      */
-    private function remove_post_type_metabox()
+    public function remove_post_type_metabox()
     {
         foreach (array_keys(config('admin-ui', [])) as $key) :
             if (!preg_match('/^remove_meta_box_(.*)/', $key, $match)) :
@@ -179,13 +179,13 @@ class PostType extends AbstractAppDependency
 
         switch ($pagenow) :
             case 'edit.php':
-                if ($this->appRequest('GET')->get('post_type') === 'post') :
+                if ($this->app->appRequest('GET')->get('post_type') === 'post') :
                     \wp_safe_redirect(get_admin_url(), 301);
                     exit;
                 endif;
             case 'edit-tags.php':
             case 'post-new.php':
-                if (!array_key_exists('post_type', $this->appRequest('GET')->all()) && !array_key_exists('taxonomy', $this->appRequest('GET')->all()) && !$this->appRequest('POST')->all()) :
+                if (!array_key_exists('post_type', $this->app->appRequest('GET')->all()) && !array_key_exists('taxonomy', $this->app->appRequest('GET')->all()) && !$this->app->appRequest('POST')->all()) :
                     \wp_safe_redirect(get_admin_url(), 301);
                     exit;
                 endif;

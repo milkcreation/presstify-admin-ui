@@ -28,10 +28,11 @@ class MetaTag extends AbstractAppDependency
      */
     public function init()
     {
-        \remove_action('wp_head', 'wp_generator');
-        \remove_action('wp_head', 'wp_shortlink_wp_head', 10);
-        \remove_action('wp_head', 'wp_dlmp_l10n_style');
         \remove_action('wp_head', 'rsd_link');
         \remove_action('wp_head', 'wlwmanifest_link');
+        \remove_action('wp_head', 'wp_generator');
+        \remove_action('wp_head', 'wp_shortlink_wp_head');
+        \remove_action('wp_head', 'wp_dlmp_l10n_style');
+        \remove_action('wp_head', 'wp_shortlink_wp_head');
     }
 }
