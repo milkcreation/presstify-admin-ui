@@ -1,6 +1,6 @@
 {
   "name": "presstify-plugins/admin-ui",
-  "description": "Extension PresstiFy de gestion l'interface d'administration de Wordpress.",
+  "description": "Gestion l'interface d'administration de Wordpress.",
   "type": "presstify-plugin",
   "keywords": [
     "presstify",
@@ -10,7 +10,7 @@
     "woocommerce"
   ],
   "homepage": "https://svn.milkcreation.fr/presstify-plugins/admin-ui",
-  "time": "2018-08-28",
+  "time": "2018-09-07",
   "license": "proprietary",
   "authors": [
     {

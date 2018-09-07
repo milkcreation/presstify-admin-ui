@@ -6,7 +6,7 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstiFy
  * @namespace \tiFy\Plugins\AdminUi
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 namespace tiFy\Plugins\AdminUi;
