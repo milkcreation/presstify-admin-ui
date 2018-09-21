@@ -7,22 +7,22 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class Dashboard extends AbstractAppDependency
+class Dashboard
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.remove_dashboard_meta_box', [])) :
-            $this->app->appAddAction('admin_init', [$this, 'admin_init']);
+            add_action('admin_init', [$this, 'admin_init']);
         endif;
 
         if ($panels = config('admin-ui.remove_dashboard_panel', [])) :
             foreach($panels as $panel) :
-                \remove_action("{$panel}_panel", "wp_{$panel}_panel");
+                remove_action("{$panel}_panel", "wp_{$panel}_panel");
             endforeach;
         endif;
     }
@@ -35,10 +35,10 @@ class Dashboard extends AbstractAppDependency
     public function admin_init()
     {
         foreach (config('admin-ui.remove_dashboard_meta_box', []) as $metabox => $context) :
-            if (\is_numeric($metabox)) :
+            if (is_numeric($metabox)) :
                 \remove_meta_box('dashboard_' . $context, 'dashboard', false);
-            elseif (\is_string($metabox)) :
-                \remove_meta_box('dashboard_' . $metabox, 'dashboard', $context);
+            elseif (is_string($metabox)) :
+                remove_meta_box('dashboard_' . $metabox, 'dashboard', $context);
             endif;
         endforeach;
     }

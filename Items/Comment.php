@@ -7,20 +7,20 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class Comment extends AbstractAppDependency
+class Comment
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.disable_comment')) :
-            $this->app->appAddAction('admin_menu', [$this, 'admin_menu']);
-            $this->app->appAddAction('init', [$this, 'init']);
-            $this->app->appAddAction('wp_before_admin_bar_render', [$this, 'wp_before_admin_bar_render']);
-            $this->app->appAddAction('wp_widgets_init', [$this, 'wp_widgets_init']);
+            add_action('admin_menu', [$this, 'admin_menu']);
+            add_action('init', [$this, 'init']);
+            add_action('wp_before_admin_bar_render', [$this, 'wp_before_admin_bar_render']);
+            add_action('wp_widgets_init', [$this, 'wp_widgets_init']);
         endif;
     }
 
@@ -31,8 +31,8 @@ class Comment extends AbstractAppDependency
      */
     public function admin_menu()
     {
-        \remove_menu_page('edit-comments.php');
-        \remove_submenu_page('options-general.php', 'options-discussion.php');
+        remove_menu_page('edit-comments.php');
+        remove_submenu_page('options-general.php', 'options-discussion.php');
     }
 
     /**
@@ -42,9 +42,9 @@ class Comment extends AbstractAppDependency
      */
     public function init()
     {
-        \remove_post_type_support('post', 'comments');
-        \remove_post_type_support('page', 'comments');
-        \update_option('default_comment_status', 0);
+        remove_post_type_support('post', 'comments');
+        remove_post_type_support('page', 'comments');
+        update_option('default_comment_status', 0);
     }
 
     /**
@@ -72,6 +72,6 @@ class Comment extends AbstractAppDependency
      */
     public function wp_widgets_init()
     {
-        \unregister_widget('WP_Widget_Recent_Comments');
+        unregister_widget('WP_Widget_Recent_Comments');
     }
 }

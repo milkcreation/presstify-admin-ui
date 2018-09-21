@@ -12,38 +12,38 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class PostType extends AbstractAppDependency
+class PostType
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
-        $this->app->appAddAction('init', [$this, 'remove_post_type_support'], 9999);
+        add_action('init', [$this, 'remove_post_type_support'], 9999);
 
-        $this->app->appAddAction('add_meta_boxes', [$this, 'remove_post_type_metabox'], 9999);
+        add_action('add_meta_boxes', [$this, 'remove_post_type_metabox'], 9999);
 
         if (config('admin-ui.disable_post')) :
             global $pagenow;
 
-            $this->app->appAddAction('admin_init', [$this, 'disable_post_dashboard_meta_box']);
-            $this->app->appAddAction('admin_menu', [$this, 'disable_post_remove_menu']);
-            $this->app->appAddFilter('nav_menu_meta_box_object', [$this, 'disable_post_nav_menu_meta_box_object']);
-            $this->app->appAddAction('wp_before_admin_bar_render', [$this, 'disable_post_wp_before_admin_bar_render']);
+            add_action('admin_init', [$this, 'disable_post_dashboard_meta_box']);
+            add_action('admin_menu', [$this, 'disable_post_remove_menu']);
+            add_filter('nav_menu_meta_box_object', [$this, 'disable_post_nav_menu_meta_box_object']);
+            add_action('wp_before_admin_bar_render', [$this, 'disable_post_wp_before_admin_bar_render']);
 
             /* checks the request and redirects to the dashboard */
-            $this->app->appAddAction('init', [$this, 'disallow_post_type_post']);
+            add_action('init', [$this, 'disallow_post_type_post']);
 
             /* removes Post Type `Post` related menus from the sidebar menu */
-            $this->app->appAddAction('admin_menu', [$this, 'remove_post_type_post']);
+            add_action('admin_menu', [$this, 'remove_post_type_post']);
 
             if (!is_admin() && ($pagenow != 'wp-login.php')) :
                 /* need to return a 404 when post_type `post` objects are found */
-                $this->appAddAction('posts_results', [$this, 'check_post_type']);
+                add_action('posts_results', [$this, 'check_post_type']);
                 /* do not return any instances of post_type `post` */
-                $this->appAddFilter('pre_get_posts', [$this, 'remove_from_search_filter']);
+                add_filter('pre_get_posts', [$this, 'remove_from_search_filter']);
             endif;
         endif;
     }
@@ -67,7 +67,7 @@ class PostType extends AbstractAppDependency
             endif;
 
             foreach (config("admin-ui.{$key}") as $support) :
-                \remove_post_type_support($post_type, $support);
+                remove_post_type_support($post_type, $support);
             endforeach;
         endforeach;
     }
@@ -77,7 +77,7 @@ class PostType extends AbstractAppDependency
      *
      * @return void
      */
-    private function remove_post_type_metabox()
+    public function remove_post_type_metabox()
     {
         foreach (array_keys(config('admin-ui', [])) as $key) :
             if (!preg_match('/^remove_meta_box_(.*)/', $key, $match)) :
@@ -96,11 +96,11 @@ class PostType extends AbstractAppDependency
                     $context = false;
                 endif;
 
-                \remove_meta_box($metabox, $post_type, $context);
+                remove_meta_box($metabox, $post_type, $context);
 
                 // Hack Wordpress : Maintient du support de la modification du permalien
                 if ($metabox === 'slugdiv') :
-                    $this->app->appAddAction(
+                    add_action(
                         'edit_form_before_permalink',
                         function ($post) use ($post_type) {
                             if ($post->post_type !== $post_type) :
@@ -109,7 +109,7 @@ class PostType extends AbstractAppDependency
 
                             $editable_slug = apply_filters('editable_slug', $post->post_name, $post);
                             echo "<input name=\"post_name\" type=\"hidden\" size=\"13\" id=\"post_name\" value=\"" . esc_attr($editable_slug) . "\" autocomplete=\"off\" />";
-                    });
+                        });
                 endif;
             endforeach;
         endforeach;
@@ -126,7 +126,7 @@ class PostType extends AbstractAppDependency
      */
     public function disable_post_dashboard_meta_box()
     {
-        \remove_meta_box('dashboard_quick_press', 'dashboard', 'normal');
+        remove_meta_box('dashboard_quick_press', 'dashboard', 'normal');
     }
 
     /**
@@ -136,7 +136,7 @@ class PostType extends AbstractAppDependency
      */
     public function disable_post_remove_menu()
     {
-        \remove_menu_page('edit.php');
+        remove_menu_page('edit.php');
     }
 
     /**
@@ -179,14 +179,24 @@ class PostType extends AbstractAppDependency
 
         switch ($pagenow) :
             case 'edit.php':
-                if ($this->appRequest('GET')->get('post_type') === 'post') :
-                    \wp_safe_redirect(get_admin_url(), 301);
+                if (request()->query('post_type') === 'post') :
+                    wp_safe_redirect(get_admin_url(), 301);
                     exit;
                 endif;
             case 'edit-tags.php':
             case 'post-new.php':
-                if (!array_key_exists('post_type', $this->appRequest('GET')->all()) && !array_key_exists('taxonomy', $this->appRequest('GET')->all()) && !$this->appRequest('POST')->all()) :
-                    \wp_safe_redirect(get_admin_url(), 301);
+                if (
+                    !array_key_exists(
+                        'post_type',
+                        request()->getProperty('GET')->all()
+                    ) &&
+                    !array_key_exists(
+                        'taxonomy',
+                        request()->getProperty('GET')->all()
+                    ) &&
+                    !request()->getProperty('POST')->all()
+                ) :
+                    wp_safe_redirect(get_admin_url(), 301);
                     exit;
                 endif;
                 break;
@@ -259,9 +269,10 @@ class PostType extends AbstractAppDependency
             http://localhost/?tag=foobar	- tag archives
             http://localhost/?p=1			- single post
         */
-        if ($instance !== false) {
+        if ($instance !== false) :
             $posts = []; // we are querying for post type `post`
-        }
+        endif;
+
         return $posts;
     }
 

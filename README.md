@@ -1,8 +1,63 @@
+#Admin Ui
+
+Gestion de l'interface d'administration de Wordpress.
+
+##Installation
+
+Dans config/app.php ajouter **AdminUiServiceProvider** à la liste des fournisseurs de services chargés automatiquement 
+par l'application.
+
+```php
 <?php
 
-/**
- * Exemple de configuration.
- */
+use tiFy\Plugins\AdminUi\AdminUiServiceProvider;
+
+return [
+    'providers' => [
+        AdminUiServiceProvider::class
+    ]
+];
+```
+
+##Configuration
+
+Dans le dossier de config, créer le fichier **admin-ui.php**.
+
+###admin_bar_menu_logo
+**@type array**
+
+Permet de personnaliser l'entrée de menu "Wordpress" de la barre d'administration.
+
+###admin_footer_text
+**@type string**
+
+Permet de personnaliser le texte du pied de page de l'interface d'administration.
+
+###disable_comment
+**@type boolean**
+
+Permet de désactiver la prise en charge des commentaires.
+
+###disable_embed
+**@type boolean**
+
+Permet de désactiver la prise en charge de l'intégration des contenus fournis par les service tiers (Youtube, 
+Facebook, Twitter ...).
+
+###disable_emoji
+**@type boolean**
+
+Permet de désactiver la prise en charge de l'affichage des Emojis.
+
+###disable_meta_tag
+**@type boolean**
+
+Permet de désactiver la prise en charge des meta tags de Wordpress.
+
+###Exemple de fichier de configuration
+
+```php
+<?php
 
 return [
     /**
@@ -193,32 +248,5 @@ return [
      * @var string[]
      */
     //'unregister_taxonomy_for_{{post_type}}' => ['taxonomy1', 'taxonomy2'],
-
-    /**
-     * @todo
-     * -----------------------------------------------------------------------------------------------------------------
-     */
-    # Mise à jour automatique du coeur de Wordpress
-    # true (defaut tous ) | 'all' | [ 'dev', 'minor', 'major' ]
-    # dev   : autorise la montée en version de développement (ex : 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2)
-    # minor : autorise la montée en sous version (ex : 3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4)
-    # major : autorise la montée en version (ex : 3.7.0 -> 3.8.0 -> 3.9.1 )
-    # @todo
-    //auto_update_core:             true
-
-    # Envoi d'un mail d'alerte à l'administrateur
-    # @todo
-    //auto_core_update_send_email:  true
-
-    # Mise à jour automatique des plugins de Wordpress
-    # @todo
-    //auto_update_plugin:           true
-
-    # Mise à jour automatique des themes de Wordpress
-    # @todo
-    //auto_update_theme:            true
-
-    # Mise à jour automatique des themes de Wordpress
-    # @todo
-    //auto_update_translation:      true
 ];
+```

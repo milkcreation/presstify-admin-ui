@@ -9,24 +9,24 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class Taxonomy extends AbstractAppDependency
+class Taxonomy
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.disable_post_category', false)) :
-            $this->app->appAddAction('init', [$this, 'disable_post_category']);
+            add_action('init', [$this, 'disable_post_category']);
         endif;
 
         if (config('admin-ui.disable_post_tag', false)) :
-            $this->app->appAddAction('init', [$this, 'disable_post_tag']);
+            add_action('init', [$this, 'disable_post_tag']);
         endif;
 
-        $this->app->appAddAction('init', [$this, 'unregister_taxonomy_for_object_type'], 9999);
+        add_action('init', [$this, 'unregister_taxonomy_for_object_type'], 9999);
     }
 
     /**
@@ -42,7 +42,7 @@ class Taxonomy extends AbstractAppDependency
             $wp_taxonomies['category']->show_in_nav_menus = false;
         endif;
 
-        \unregister_taxonomy_for_object_type('category', 'post');
+        unregister_taxonomy_for_object_type('category', 'post');
     }
 
     /**
@@ -58,7 +58,7 @@ class Taxonomy extends AbstractAppDependency
             $wp_taxonomies['post_tag']->show_in_nav_menus = false;
         endif;
 
-        \unregister_taxonomy_for_object_type('post_tag', 'post');
+        unregister_taxonomy_for_object_type('post_tag', 'post');
     }
 
     /**
@@ -85,7 +85,7 @@ class Taxonomy extends AbstractAppDependency
                     $wp_taxonomies[$taxonomy]->show_in_nav_menus = false;
                 endif;
 
-                \unregister_taxonomy_for_object_type($taxonomy, $post_type[1]);
+                unregister_taxonomy_for_object_type($taxonomy, $post_type[1]);
             endforeach;
         endforeach;
     }

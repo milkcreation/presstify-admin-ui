@@ -11,9 +11,7 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class Embed extends AbstractAppDependency
+class Embed
 {
     /**
      * Liste des options de désactivation des éléments de l'embed.
@@ -32,9 +30,11 @@ class Embed extends AbstractAppDependency
     ];
 
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if ($disable_embed = config('admin-ui.disable_embed', [])) :
             $this->attributes = ($disable_embed === true)
@@ -44,7 +44,7 @@ class Embed extends AbstractAppDependency
                     $disable_embed
                 );
 
-            $this->app->appAddAction('init', [$this, 'init'], 9999);
+            add_action('init', [$this, 'init'], 9999);
         endif;
     }
 
@@ -57,45 +57,45 @@ class Embed extends AbstractAppDependency
     {
         // Remove the REST API endpoint.
         if ($this->attributes['register_route']) :
-            \remove_action('rest_api_init', 'wp_oembed_register_route');
+            remove_action('rest_api_init', 'wp_oembed_register_route');
         endif;
 
         // Turn off oEmbed auto discovery.
         if ($this->attributes['discover']) :
-            \add_filter('embed_oembed_discover', '__return_false');
+            add_filter('embed_oembed_discover', '__return_false');
         endif;
 
         // Don't filter oEmbed results.
         if ($this->attributes['filter_result']) :
-            \remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
+            remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
         endif;
 
         // Remove oEmbed discovery links.
         if ($this->attributes['discovery_links']) :
-            \remove_action('wp_head', 'wp_oembed_add_discovery_links');
+            remove_action('wp_head', 'wp_oembed_add_discovery_links');
         endif;
 
         // Remove oEmbed-specific JavaScript from the front-end and back-end.
         if ($this->attributes['host_js']) :
-            \remove_action('wp_head', 'wp_oembed_add_host_js');
+            remove_action('wp_head', 'wp_oembed_add_host_js');
         endif;
         if ($this->attributes['tiny_mce_plugin']) :
-            $this->app->appAddFilter('tiny_mce_plugins', [$this, 'tiny_mce_plugins']);
+            add_filter('tiny_mce_plugins', [$this, 'tiny_mce_plugins']);
         endif;
 
         // Remove filter of the oEmbed result before any HTTP requests are made.
         if ($this->attributes['pre_oembed_result']) :
-            \remove_filter('pre_oembed_result', 'wp_filter_pre_oembed_result', 10);
+            remove_filter('pre_oembed_result', 'wp_filter_pre_oembed_result', 10);
         endif;
 
         // Retire les régles de réécriture.
         if ($this->attributes['rewrite_rules']) :
-            $this->app->appAddFilter('rewrite_rules_array', [$this, 'rewrite_rules_array']);
+            add_filter('rewrite_rules_array', [$this, 'rewrite_rules_array']);
         endif;
 
         // Retire le script d'intégration de la file.
         if ($this->attributes['dequeue_script']) :
-            $this->app->appAddAction('wp_footer', [$this, 'wp_footer']);
+            add_action('wp_footer', [$this, 'wp_footer']);
         endif;
     }
 
@@ -136,6 +136,6 @@ class Embed extends AbstractAppDependency
      */
     public function wp_footer()
     {
-        \wp_dequeue_script('wp-embed');
+        wp_dequeue_script('wp-embed');
     }
 }

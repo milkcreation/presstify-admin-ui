@@ -7,17 +7,17 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class MetaTag extends AbstractAppDependency
+class MetaTag
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.disable_meta_tag')) :
-            $this->app->appAddAction('init', [$this, 'init']);
+            add_action('init', [$this, 'init']);
         endif;
     }
 
@@ -28,10 +28,11 @@ class MetaTag extends AbstractAppDependency
      */
     public function init()
     {
-        \remove_action('wp_head', 'wp_generator');
-        \remove_action('wp_head', 'wp_shortlink_wp_head', 10);
-        \remove_action('wp_head', 'wp_dlmp_l10n_style');
-        \remove_action('wp_head', 'rsd_link');
-        \remove_action('wp_head', 'wlwmanifest_link');
+        remove_action('wp_head', 'rsd_link');
+        remove_action('wp_head', 'wlwmanifest_link');
+        remove_action('wp_head', 'wp_generator');
+        remove_action('wp_head', 'wp_shortlink_wp_head');
+        remove_action('wp_head', 'wp_dlmp_l10n_style');
+        remove_action('wp_head', 'wp_shortlink_wp_head');
     }
 }
