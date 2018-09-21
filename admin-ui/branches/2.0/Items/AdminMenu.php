@@ -7,17 +7,17 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class AdminMenu extends AbstractAppDependency
+class AdminMenu
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.remove_menu', [])) :
-            $this->app->appAddAction('admin_menu', [$this, 'admin_menu']);
+            add_action('admin_menu', [$this, 'admin_menu']);
         endif;
     }
 
@@ -31,37 +31,37 @@ class AdminMenu extends AbstractAppDependency
         foreach (config('admin-ui.remove_menu', []) as $menu) :
             switch ($menu) :
                 default :
-                    \remove_menu_page($menu);
+                    remove_menu_page($menu);
                     break;
                 case 'dashboard'     :
-                    \remove_menu_page('index.php');
+                    remove_menu_page('index.php');
                     break;
                 case 'posts'         :
-                    \remove_menu_page('edit.php');
+                    remove_menu_page('edit.php');
                     break;
                 case 'media'         :
-                    \remove_menu_page('upload.php');
+                    remove_menu_page('upload.php');
                     break;
                 case 'pages'        :
-                    \remove_menu_page('edit.php?post_type=page');
+                    remove_menu_page('edit.php?post_type=page');
                     break;
                 case 'comments'        :
                     \remove_menu_page('edit-comments.php');
                     break;
                 case 'appearence'    :
-                    \remove_menu_page('themes.php');
+                    remove_menu_page('themes.php');
                     break;
                 case 'plugins'    :
-                    \remove_menu_page('plugins.php');
+                    remove_menu_page('plugins.php');
                     break;
                 case 'users'    :
-                    \remove_menu_page('users.php');
+                    remove_menu_page('users.php');
                     break;
                 case 'tools'    :
-                    \remove_menu_page('tools.php');
+                    remove_menu_page('tools.php');
                     break;
                 case 'settings'    :
-                    \remove_menu_page('options-general.php');
+                    remove_menu_page('options-general.php');
                     break;
             endswitch;
         endforeach;

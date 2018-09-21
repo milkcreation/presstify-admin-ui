@@ -10,17 +10,17 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class RestApi extends AbstractAppDependency
+class RestApi
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.disable_rest_api')) :
-            $this->app->appAddAction('init', [$this, 'init']);
+            add_action('init', [$this, 'init']);
         endif;
     }
 
@@ -32,12 +32,12 @@ class RestApi extends AbstractAppDependency
     public function init()
     {
         // Disable REST API link tag
-        \remove_action('wp_head', 'rest_output_link_wp_head', 10);
+        remove_action('wp_head', 'rest_output_link_wp_head', 10);
 
         // Disable oEmbed Discovery Links
-        \remove_action('wp_head', 'wp_oembed_add_discovery_links', 10);
+        remove_action('wp_head', 'wp_oembed_add_discovery_links', 10);
 
         // Disable REST API link in HTTP headers
-        \remove_action('template_redirect', 'rest_output_link_header', 11, 0);
+        remove_action('template_redirect', 'rest_output_link_header', 11, 0);
     }
 }

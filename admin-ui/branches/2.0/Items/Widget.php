@@ -7,17 +7,17 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class Widget extends AbstractAppDependency
+class Widget
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.unregister_widget', [])) :
-            $this->app->appAddAction('widget_init', [$this, 'widget_init']);
+            add_action('widget_init', [$this, 'widget_init']);
         endif;
     }
 
@@ -46,13 +46,13 @@ class Widget extends AbstractAppDependency
                 case 'rss':
                 case 'tag cloud':
                 case 'nav menu':
-                    \unregister_widget('WP_Widget_' . preg_replace('/\s/', '_', ucwords($widget)));
+                    unregister_widget('WP_Widget_' . preg_replace('/\s/', '_', ucwords($widget)));
                     break;
                 case 'rss' :
-                    \unregister_widget('WP_Widget_RSS');
+                    unregister_widget('WP_Widget_RSS');
                     break;
                 case 'nav menu' :
-                    \unregister_widget('WP_Nav_Menu_Widget');
+                    unregister_widget('WP_Nav_Menu_Widget');
                     break;
             endswitch;
         endforeach;

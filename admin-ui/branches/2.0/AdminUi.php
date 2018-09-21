@@ -4,14 +4,12 @@
  * @name AdminUi
  * @desc Gestion l'interface d'administration de Wordpress.
  * @author Jordy Manner <jordy@milkcreation.fr>
- * @package presstiFy
+ * @package presstify-plugins/admin-ui
  * @namespace \tiFy\Plugins\AdminUi
- * @version 2.0.2
+ * @version 2.0.3
  */
 
 namespace tiFy\Plugins\AdminUi;
-
-use tiFy\App\Dependency\AbstractAppDependency;
 
 /**
  * Class AdminUi
@@ -41,48 +39,42 @@ use tiFy\App\Dependency\AbstractAppDependency;
  * Dans le dossier de config, créer le fichier admin-ui.php
  * @see /vendor/presstify-plugins/admin-ui/Resources/config/admin-ui.php Exemple de configuration
  */
-class AdminUi extends AbstractAppDependency
+final class AdminUi
 {
     /**
-     * {@inheritdoc}
-     */
-    public function boot()
-    {
-        $this->app->appAddAction('admin_bar_menu', [$this, 'admin_bar_menu'], 11);
-        $this->app->appAddFilter('admin_footer_text', [$this, 'admin_footer_text']);
-    }
-
-    /**
-     * Initialisation de la barre d'administration.
-     *
-     * @param \WP_Admin_Bar $wp_admin_bar
+     * CONSTRUCTEUR.
      *
      * @return void
      */
-    public function admin_bar_menu($wp_admin_bar)
+    public function __construct()
     {
-        if ($admin_bar_menu_logo = config('admin-ui.admin_bar_menu_logo', [])) :
-            $wp_admin_bar->remove_menu('wp-logo');
+        // Personnalisation du logo de la barr d'administration.
+        add_action(
+            'admin_bar_menu',
+            function () {
+                /** @var \WP_Admin_Bar $wp_admin_bar */
+                if ($admin_bar_menu_logo = config('admin-ui.admin_bar_menu_logo', [])) :
+                    $wp_admin_bar->remove_menu('wp-logo');
 
-            foreach ($admin_bar_menu_logo as $node) :
-                if (!empty($node['group'])) :
-                    $wp_admin_bar->add_group($node);
-                else :
-                    $wp_admin_bar->add_menu($node);
+                    foreach ($admin_bar_menu_logo as $node) :
+                        if (!empty($node['group'])) :
+                            $wp_admin_bar->add_group($node);
+                        else :
+                            $wp_admin_bar->add_menu($node);
+                        endif;
+                    endforeach;
                 endif;
-            endforeach;
-        endif;
-    }
+            },
+            11
+        );
 
-    /**
-     * Personnalisation du pied de page de l'interface d'administration.
-     *
-     * @param string $text
-     *
-     * @return string
-     */
-    public function admin_footer_text($text = '')
-    {
-        return config('admin-ui.admin_footer_text', '') ? : $text;
+        // Personnalisation du pied de page de l'interface d'administration.
+        add_filter(
+            'admin_footer_text',
+            function ($text = '') {
+                return config('admin-ui.admin_footer_text', '') ? : $text;
+            },
+            999999
+        );
     }
 }

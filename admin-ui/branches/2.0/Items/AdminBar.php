@@ -7,17 +7,17 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\App\Dependency\AbstractAppDependency;
-
-class AdminBar extends AbstractAppDependency
+class AdminBar
 {
     /**
-     * {@inheritdoc}
+     * CONSTRUCTEUR.
+     *
+     * @return void
      */
-    public function boot()
+    public function __construct()
     {
         if (config('admin-ui.remove_admin_bar_menu', [])) :
-            $this->app->appAddAction('wp_before_admin_bar_render', [$this, 'wp_before_admin_bar_render']);
+            add_action('wp_before_admin_bar_render', [$this, 'wp_before_admin_bar_render']);
         endif;
     }
 

@@ -32,7 +32,7 @@ class AdminUiServiceProvider extends AppServiceProvider
     {
         $this->app->resolve(AdminUi::class);
 
-        $this->app->appAddAction(
+        add_action(
             'after_setup_theme',
             function() {
                 $items = [
@@ -50,7 +50,7 @@ class AdminUiServiceProvider extends AppServiceProvider
                 ];
 
                 foreach ($items as $abstract) :
-                    $concrete = $this->getContainer()
+                    $concrete = $this->app
                         ->singleton($abstract)
                         ->build([$this->app]);
                 endforeach;
