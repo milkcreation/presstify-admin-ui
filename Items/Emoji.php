@@ -17,9 +17,9 @@ class Emoji
     public function __construct()
     {
         if (config('admin-ui.disable_emoji')) :
+            add_filter('emoji_svg_url', '__return_false');
             add_action('init', [$this, 'init']);
             add_filter('tiny_mce_plugins', [$this, 'tiny_mce_plugins']);
-            add_filter('wp_resource_hints', [$this, 'wp_resource_hints'], 10, 2);
         endif;
     }
 
@@ -53,25 +53,5 @@ class Emoji
         else :
             return [];
         endif;
-    }
-
-    /**
-     * Récupération de ressources pré-affichées dans le navigateur.
-     *
-     * @param array $urls Liste des urls des ressources pré-affichées.
-     * @param string $relation_type Type de relation des urls à pré-afficher.
-     *
-     * @return array
-     */
-    public function wp_resource_hints($urls, $relation_type)
-    {
-        if ('dns-prefetch' == $relation_type) :
-            /** This filter is documented in wp-includes/formatting.php */
-            $emoji_svg_url = apply_filters('emoji_svg_url', 'https://s.w.org/images/core/emoji/2.4/svg/');
-
-            $urls = array_diff($urls, [$emoji_svg_url]);
-        endif;
-
-        return $urls;
     }
 }
