@@ -175,7 +175,11 @@ class PostType
      */
     public function disallow_post_type_post()
     {
-        global $pagenow, $wp;
+        global $pagenow, $wp, $wp_post_types;
+
+        if (isset($wp_post_types['post'])) :
+            $wp_post_types['post']->exclude_from_search = true;
+        endif;
 
         switch ($pagenow) :
             case 'edit.php':
