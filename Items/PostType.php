@@ -42,8 +42,6 @@ class PostType
             if (!is_admin() && ($pagenow != 'wp-login.php')) :
                 /* need to return a 404 when post_type `post` objects are found */
                 add_action('posts_results', [$this, 'check_post_type']);
-                /* do not return any instances of post_type `post` */
-                add_filter('pre_get_posts', [$this, 'remove_from_search_filter']);
             endif;
         endif;
     }
@@ -278,29 +276,5 @@ class PostType
         endif;
 
         return $posts;
-    }
-
-    /**
-     * excludes post type `post` to be returned from search
-     *
-     * @param null
-     *
-     * @return object $query, wp_query object
-     */
-    public function remove_from_search_filter($query)
-    {
-        if (!is_search()) :
-            return $query;
-        endif;
-
-        $post_types = get_post_types();
-        if (array_key_exists('post', $post_types)) :
-            /* exclude post_type `post` from the query results */
-            unset($post_types['post']);
-        endif;
-
-        $query->set('post_type', array_values($post_types));
-
-        return $query;
     }
 }
