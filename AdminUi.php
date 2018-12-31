@@ -6,7 +6,7 @@
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package presstify-plugins/admin-ui
  * @namespace \tiFy\Plugins\AdminUi
- * @version 2.0.5
+ * @version 2.0.6
  */
 
 namespace tiFy\Plugins\AdminUi;
