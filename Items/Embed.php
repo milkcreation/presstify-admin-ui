@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Désactivation de la prise en charge d'intégration de contenu provenant de services tiers.
+ * Fonctionnalités :
+ * - Désactivation de la prise en charge d'intégration de contenu provenant de services tiers.
  *
+ * Ressources :
  * @see https://codex.wordpress.org/Embeds
  * @see https://kinsta.com/knowledgebase/disable-embeds-wordpress/#inline-embed-js
  */
 
-namespace tiFy\Plugins\AdminUi;
+namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\Apps\AppController;
-
-class Embed extends AppController
+class Embed
 {
     /**
      * Liste des options de désactivation des éléments de l'embed.
      * @var array
      */
-    protected $options = [
+    protected $attributes = [
         'register_route'    => true,
         'discover'          => true,
         'filter_result'     => true,
@@ -34,63 +34,68 @@ class Embed extends AppController
      *
      * @return void
      */
-    public function __construct($options)
+    public function __construct()
     {
-        parent::__construct();
+        if ($disable_embed = config('admin-ui.disable_embed', [])) :
+            $this->attributes = ($disable_embed === true)
+                ? $this->attributes
+                : array_merge(
+                    $this->attributes,
+                    $disable_embed
+                );
 
-        $this->options = ($options === true) ? $this->options : array_merge($this->options, $options);
-
-        $this->appAddAction('init', null, 9999);
+            add_action('init', [$this, 'init'], 9999);
+        endif;
     }
 
     /**
-     * Initialisation globale.
+     * Initialisation globale de Wordpress.
      *
-     * @return void
+     * @return null
      */
-    final public function init()
+    public function init()
     {
         // Remove the REST API endpoint.
-        if ($this->options['register_route']) :
+        if ($this->attributes['register_route']) :
             remove_action('rest_api_init', 'wp_oembed_register_route');
         endif;
 
         // Turn off oEmbed auto discovery.
-        if ($this->options['discover']) :
+        if ($this->attributes['discover']) :
             add_filter('embed_oembed_discover', '__return_false');
         endif;
 
         // Don't filter oEmbed results.
-        if ($this->options['filter_result']) :
+        if ($this->attributes['filter_result']) :
             remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
         endif;
 
         // Remove oEmbed discovery links.
-        if ($this->options['discovery_links']) :
+        if ($this->attributes['discovery_links']) :
             remove_action('wp_head', 'wp_oembed_add_discovery_links');
         endif;
 
         // Remove oEmbed-specific JavaScript from the front-end and back-end.
-        if ($this->options['host_js']) :
+        if ($this->attributes['host_js']) :
             remove_action('wp_head', 'wp_oembed_add_host_js');
         endif;
-        if ($this->options['tiny_mce_plugin']) :
-            $this->appAddFilter('tiny_mce_plugins');
+        if ($this->attributes['tiny_mce_plugin']) :
+            add_filter('tiny_mce_plugins', [$this, 'tiny_mce_plugins']);
         endif;
 
         // Remove filter of the oEmbed result before any HTTP requests are made.
-        if ($this->options['pre_oembed_result']) :
+        if ($this->attributes['pre_oembed_result']) :
             remove_filter('pre_oembed_result', 'wp_filter_pre_oembed_result', 10);
         endif;
 
         // Retire les régles de réécriture.
-        if ($this->options['rewrite_rules']) :
-            $this->appAddFilter('rewrite_rules_array');
+        if ($this->attributes['rewrite_rules']) :
+            add_filter('rewrite_rules_array', [$this, 'rewrite_rules_array']);
         endif;
 
         // Retire le script d'intégration de la file.
-        if ($this->options['dequeue_script']) :
-            $this->appAddAction('wp_footer');
+        if ($this->attributes['dequeue_script']) :
+            add_action('wp_footer', [$this, 'wp_footer']);
         endif;
     }
 
@@ -101,7 +106,7 @@ class Embed extends AppController
      *
      * @return array
      */
-    final public function tiny_mce_plugins($plugins)
+    public function tiny_mce_plugins($plugins)
     {
         return array_diff($plugins, ['wpembed']);
     }
@@ -113,7 +118,7 @@ class Embed extends AppController
      *
      * @return array
      */
-    final public function rewrite_rules_array($rules)
+    public function rewrite_rules_array($rules)
     {
         foreach ($rules as $rule => $rewrite) :
             if (false !== strpos($rewrite, 'embed=true')) :
@@ -129,7 +134,7 @@ class Embed extends AppController
      *
      * @return void
      */
-    function wp_footer()
+    public function wp_footer()
     {
         wp_dequeue_script('wp-embed');
     }
