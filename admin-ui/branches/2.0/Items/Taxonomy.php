@@ -71,6 +71,7 @@ class Taxonomy
         global $wp_taxonomies;
 
         foreach (array_keys(config('admin-ui', [])) as $key) :
+
             if (!preg_match('/^unregister_taxonomy_for_(.*)/', $key, $match)) :
                 continue;
             endif;
@@ -81,11 +82,11 @@ class Taxonomy
             endif;
 
             foreach (config("admin-ui.{$key}", []) as $taxonomy) :
+
                 if (isset($wp_taxonomies[$taxonomy])) :
                     $wp_taxonomies[$taxonomy]->show_in_nav_menus = false;
                 endif;
-
-                unregister_taxonomy_for_object_type($taxonomy, $post_type[1]);
+                unregister_taxonomy_for_object_type($taxonomy, $post_type);
             endforeach;
         endforeach;
     }
