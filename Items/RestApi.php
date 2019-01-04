@@ -1,27 +1,33 @@
 <?php
 
 /**
+ * Fonctionnalités :
+ * - Désactivation de la prise en charge de l'Api Rest Wordpress (webservices).
+ *
+ * Ressources :
  * @see https://wp-mix.com/wordpress-disable-rest-api-header-links/
  */
 
-namespace tiFy\Plugins\AdminUi;
+namespace tiFy\Plugins\AdminUi\Items;
 
-use tiFy\Apps\AppController;
-
-class RestApi extends AppController
+class RestApi
 {
     /**
-     * Initialisation du controleur.
+     * CONSTRUCTEUR.
      *
      * @return void
      */
-    public function appBoot()
+    public function __construct()
     {
-        $this->appAddAction('init');
+        if (config('admin-ui.disable_rest_api')) :
+            add_action('init', [$this, 'init']);
+        endif;
     }
 
     /**
      * Initialisation globale de Wordpress.
+     *
+     * @return null
      */
     public function init()
     {
