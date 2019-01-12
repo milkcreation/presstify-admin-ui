@@ -1,6 +1,6 @@
 {
   "name": "presstify-plugins/admin-ui",
-  "description": "Gestion l'interface d'administration de Wordpress.",
+  "description": "Extension PresstiFy de gestion l'interface d'administration de Wordpress.",
   "type": "presstify-plugin",
   "keywords": [
     "presstify",
@@ -10,7 +10,7 @@
     "woocommerce"
   ],
   "homepage": "https://svn.tigreblanc.fr/presstify-plugins/admin-ui",
-  "time": "2019-01-04",
+  "time": "2019-01-12",
   "license": "proprietary",
   "authors": [
     {
@@ -27,7 +27,7 @@
   ],
   "require": {
     "composer/installers": "~1.0",
-    "presstify/framework": ">=1.4"
+    "presstify/framework": "2.0.*"
   },
   "autoload": {
     "psr-4": {
