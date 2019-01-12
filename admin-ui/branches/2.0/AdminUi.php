@@ -1,24 +1,19 @@
 <?php
 
-/**
- * @name AdminUi
- * @desc Gestion l'interface d'administration de Wordpress.
- * @author Jordy Manner <jordy@milkcreation.fr>
- * @package presstify-plugins/admin-ui
- * @namespace \tiFy\Plugins\AdminUi
- * @version 2.0.7
- */
-
 namespace tiFy\Plugins\AdminUi;
 
 /**
  * Class AdminUi
- * @package tiFy\Plugins\AdminUi
  *
- * Activation :
- * ----------------------------------------------------------------------------------------------------
- * Dans config/app.php ajouter \tiFy\Plugins\AdminUi\AdminUiServiceProvider à la liste des fournisseurs de services
- *     chargés automatiquement par l'application.
+ * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
+ * @author Jordy Manner <jordy@milkcreation.fr>
+ * @package tiFy\Plugins\AdminUi
+ * @version 2.0.8
+ *
+ * USAGE :
+ * Activation
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Dans config/app.php ajouter \tiFy\Plugins\AdminUi\AdminUiServiceProvider à la liste des fournisseurs de services.
  * ex.
  * <?php
  * ...
@@ -34,10 +29,10 @@ namespace tiFy\Plugins\AdminUi;
  *      ]
  * ];
  *
- * Configuration :
- * ----------------------------------------------------------------------------------------------------
+ * Configuration
+ * ---------------------------------------------------------------------------------------------------------------------
  * Dans le dossier de config, créer le fichier admin-ui.php
- * @see /vendor/presstify-plugins/admin-ui/Resources/config/admin-ui.php Exemple de configuration
+ * @see /vendor/presstify-plugins/admin-ui/Resources/config/admin-ui.php
  */
 final class AdminUi
 {
