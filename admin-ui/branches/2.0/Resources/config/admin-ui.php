@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Exemple de configuration.
- */
-
+// Exemple de configuration.
 return [
     /**
      * Personnalisation de l'entrée de menu "Wordpress" de la barre d'administration.
