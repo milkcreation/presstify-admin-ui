@@ -46,7 +46,7 @@ class AdminMenu
                     remove_menu_page('edit.php?post_type=page');
                     break;
                 case 'comments'        :
-                    \remove_menu_page('edit-comments.php');
+                    remove_menu_page('edit-comments.php');
                     break;
                 case 'appearence'    :
                     remove_menu_page('themes.php');

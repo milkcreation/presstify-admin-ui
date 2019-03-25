@@ -3,7 +3,6 @@
 namespace tiFy\Plugins\AdminUi;
 
 use tiFy\App\Container\AppServiceProvider;
-use tiFy\Plugins\AdminUi\AdminUi;
 use tiFy\Plugins\AdminUi\Items\AdminBar;
 use tiFy\Plugins\AdminUi\Items\AdminMenu;
 use tiFy\Plugins\AdminUi\Items\Comment;
@@ -19,42 +18,49 @@ use tiFy\Plugins\AdminUi\Items\Widget;
 class AdminUiServiceProvider extends AppServiceProvider
 {
     /**
-     * {@inheritdoc}
+     * Liste des noms de qualification des services fournis.
+     * @internal requis. Tous les noms de qualification de services à traiter doivent être renseignés.
+     * @var string[]
      */
-    protected $singletons = [
-        AdminUi::class,
+    protected $provides = [
+        'admin-ui'
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function boot()
     {
-        $this->app->resolve(AdminUi::class);
+        add_action('after_setup_theme', function() {
+            $this->getContainer()->resolve('admin-ui');
 
-        add_action(
-            'after_setup_theme',
-            function() {
-                $items = [
-                    AdminBar::class,
-                    AdminMenu::class,
-                    Comment::class,
-                    Dashboard::class,
-                    Embed::class,
-                    Emoji::class,
-                    MetaTag::class,
-                    PostType::class,
-                    RestApi::class,
-                    Taxonomy::class,
-                    Widget::class,
-                ];
+            $items = [
+                AdminBar::class,
+                AdminMenu::class,
+                Comment::class,
+                Dashboard::class,
+                Embed::class,
+                Emoji::class,
+                MetaTag::class,
+                PostType::class,
+                RestApi::class,
+                Taxonomy::class,
+                Widget::class,
+            ];
 
-                foreach ($items as $abstract) :
-                    $concrete = $this->app
-                        ->singleton($abstract)
-                        ->build([$this->app]);
-                endforeach;
-            }
-        );
+            foreach ($items as $concrete) :
+                new $concrete();
+            endforeach;
+        });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function register()
+    {
+        $this->getContainer()->share(function() {
+            return new AdminUi();
+        });
     }
 }
