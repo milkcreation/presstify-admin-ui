@@ -185,18 +185,13 @@ class PostType
                     wp_safe_redirect(get_admin_url(), 301);
                     exit;
                 endif;
+                break;
             case 'edit-tags.php':
             case 'post-new.php':
                 if (
-                    !array_key_exists(
-                        'post_type',
-                        request()->getProperty('GET')->all()
-                    ) &&
-                    !array_key_exists(
-                        'taxonomy',
-                        request()->getProperty('GET')->all()
-                    ) &&
-                    !request()->getProperty('POST')->all()
+                    !array_key_exists('post_type', request()->query()) &&
+                    !array_key_exists('taxonomy', request()->query()) &&
+                    !request()->post()
                 ) :
                     wp_safe_redirect(get_admin_url(), 301);
                     exit;
