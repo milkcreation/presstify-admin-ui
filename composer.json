@@ -9,8 +9,8 @@
     "e-commerce",
     "woocommerce"
   ],
-  "homepage": "https://svn.milkcreation.fr/presstify-plugins/admin-ui",
-  "time": "2018-07-25",
+  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/admin-ui",
+  "time": "2019-04-09",
   "license": "proprietary",
   "authors": [
     {
@@ -27,7 +27,7 @@
   ],
   "require": {
     "composer/installers": "~1.0",
-    "presstify/framework": "^2.0"
+    "presstify/framework": "2.0.*"
   },
   "autoload": {
     "psr-4": {
@@ -36,9 +36,10 @@
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "config" : {
+  "config": {
+    "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true,
-    "optimize-autoloader": true
+    "secure-http": false,
+    "sort-packages": true
   }
 }
