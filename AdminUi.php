@@ -8,7 +8,7 @@ namespace tiFy\Plugins\AdminUi;
  * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\AdminUi
- * @version 2.0.9
+ * @version 2.0.10
  *
  * USAGE :
  * Activation
