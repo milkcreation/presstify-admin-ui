@@ -2,7 +2,7 @@
 
 namespace tiFy\Plugins\AdminUi;
 
-use tiFy\App\Container\AppServiceProvider;
+use tiFy\Container\ServiceProvider;
 use tiFy\Plugins\AdminUi\Items\AdminBar;
 use tiFy\Plugins\AdminUi\Items\AdminMenu;
 use tiFy\Plugins\AdminUi\Items\Comment;
@@ -15,7 +15,7 @@ use tiFy\Plugins\AdminUi\Items\RestApi;
 use tiFy\Plugins\AdminUi\Items\Taxonomy;
 use tiFy\Plugins\AdminUi\Items\Widget;
 
-class AdminUiServiceProvider extends AppServiceProvider
+class AdminUiServiceProvider extends ServiceProvider
 {
     /**
      * Liste des noms de qualification des services fournis.
@@ -32,7 +32,7 @@ class AdminUiServiceProvider extends AppServiceProvider
     public function boot()
     {
         add_action('after_setup_theme', function() {
-            $this->getContainer()->resolve('admin-ui');
+            $this->getContainer()->get('admin-ui');
 
             $items = [
                 AdminBar::class,
@@ -59,7 +59,7 @@ class AdminUiServiceProvider extends AppServiceProvider
      */
     public function register()
     {
-        $this->getContainer()->share(function() {
+        $this->getContainer()->share('admin-ui', function() {
             return new AdminUi();
         });
     }
