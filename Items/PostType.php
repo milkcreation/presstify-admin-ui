@@ -12,6 +12,9 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
+use WP_Admin_Bar;
+use WP_Post_Type;
+
 class PostType
 {
     /**
@@ -49,7 +52,7 @@ class PostType
     /**
      * Suppression des attributs de support des types de post.
      *
-     * @return null
+     * @return void
      */
     public function remove_post_type_support()
     {
@@ -120,7 +123,7 @@ class PostType
     /**
      * Suppression de la metaboxe de tableau de bord - édition rapide.
      *
-     * @return null
+     * @return void
      */
     public function disable_post_dashboard_meta_box()
     {
@@ -130,7 +133,7 @@ class PostType
     /**
      * Suppression du menu d'édition.
      *
-     * @return null
+     * @return void
      */
     public function disable_post_remove_menu()
     {
@@ -140,7 +143,7 @@ class PostType
     /**
      * Désactivation de la metaboxe de menu
      *
-     * @param string $post_type
+     * @param WP_Post_Type $post_type
      *
      * @return boolean|string
      */
@@ -156,10 +159,11 @@ class PostType
     /**
      * Désactivation de l'entrée de menu "nouveau" de la barre d'administration
      *
-     * @return null
+     * @return void
      */
     public function disable_post_wp_before_admin_bar_render()
     {
+        /** @var WP_Admin_Bar $wp_admin_bar */
         global $wp_admin_bar;
 
         $wp_admin_bar->remove_node('new-post');
@@ -169,11 +173,11 @@ class PostType
      * checks the request and redirects to the dashboard
      * if the user attempts to access any `post` related links
      *
-     * @return null
+     * @return void
      */
     public function disallow_post_type_post()
     {
-        global $pagenow, $wp, $wp_post_types;
+        global $pagenow, $wp_post_types;
 
         if (isset($wp_post_types['post'])) :
             $wp_post_types['post']->exclude_from_search = true;
@@ -203,7 +207,7 @@ class PostType
     /**
      * loops through $menu and $submenu global arrays to remove any `post` related menus and submenu items
      *
-     * @return null
+     * @return void
      */
     public function remove_post_type_post()
     {

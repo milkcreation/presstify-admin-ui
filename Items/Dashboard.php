@@ -30,7 +30,7 @@ class Dashboard
     /**
      * Initialisation de l'interface d'administration de Wordpress.
      *
-     * @return null
+     * @return void
      */
     public function admin_init()
     {

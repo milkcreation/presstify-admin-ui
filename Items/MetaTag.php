@@ -24,7 +24,7 @@ class MetaTag
     /**
      * Initialisation globale de Wordpress.
      *
-     * @return null
+     * @return void
      */
     public function init()
     {

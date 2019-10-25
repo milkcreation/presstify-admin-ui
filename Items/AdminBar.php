@@ -7,6 +7,8 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
+use WP_Admin_Bar;
+
 class AdminBar
 {
     /**
@@ -16,9 +18,9 @@ class AdminBar
      */
     public function __construct()
     {
-        if (config('admin-ui.remove_admin_bar_menu', [])) :
+        if (config('admin-ui.remove_admin_bar_menu', [])) {
             add_action('wp_before_admin_bar_render', [$this, 'wp_before_admin_bar_render']);
-        endif;
+        }
     }
 
     /**
@@ -28,6 +30,7 @@ class AdminBar
      */
     public function wp_before_admin_bar_render()
     {
+        /** @var WP_Admin_Bar $wp_admin_bar */
         global $wp_admin_bar;
 
         foreach (config('admin-ui.remove_admin_bar_menu', []) as $admin_bar_node) :

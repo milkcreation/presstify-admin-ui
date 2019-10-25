@@ -3,12 +3,10 @@
 namespace tiFy\Plugins\AdminUi;
 
 /**
- * Class AdminUi
- *
  * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\AdminUi
- * @version 2.0.11
+ * @version 2.0.12
  *
  * USAGE :
  * Activation
@@ -34,7 +32,7 @@ namespace tiFy\Plugins\AdminUi;
  * Dans le dossier de config, créer le fichier admin-ui.php
  * @see Resources/config/admin-ui.php
  */
-final class AdminUi
+class AdminUi
 {
     /**
      * CONSTRUCTEUR.

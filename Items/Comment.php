@@ -7,6 +7,8 @@
 
 namespace tiFy\Plugins\AdminUi\Items;
 
+use WP_Admin_Bar;
+
 class Comment
 {
     /**
@@ -27,7 +29,7 @@ class Comment
     /**
      * Chargement du menu de navigation de l'interface d'administration.
      *
-     * @return null
+     * @return void
      */
     public function admin_menu()
     {
@@ -38,7 +40,7 @@ class Comment
     /**
      * Initialisation globale de Wordpress.
      *
-     * @return null
+     * @return void
      */
     public function init()
     {
@@ -50,10 +52,11 @@ class Comment
     /**
      * Pré-affichage de la barre d'administration de Wordpress.
      *
-     * @return null
+     * @return void
      */
     public function wp_before_admin_bar_render()
     {
+        /** @var WP_Admin_Bar $wp_admin_bar */
         global $wp_admin_bar;
 
         $wp_admin_bar->remove_node('comments');
@@ -68,7 +71,7 @@ class Comment
     /**
      * Initialisation des widgets de Wordpress.
      *
-     * @return null
+     * @return void
      */
     public function wp_widgets_init()
     {

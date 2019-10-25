@@ -43,15 +43,15 @@ class Widget
                 case 'categories':
                 case 'recent posts':
                 case 'recent comments':
-                case 'rss':
                 case 'tag cloud':
-                case 'nav menu':
                     unregister_widget('WP_Widget_' . preg_replace('/\s/', '_', ucwords($widget)));
                     break;
                 case 'rss' :
+                    unregister_widget('WP_Widget_' . preg_replace('/\s/', '_', ucwords($widget)));
                     unregister_widget('WP_Widget_RSS');
                     break;
                 case 'nav menu' :
+                    unregister_widget('WP_Widget_' . preg_replace('/\s/', '_', ucwords($widget)));
                     unregister_widget('WP_Nav_Menu_Widget');
                     break;
             endswitch;
