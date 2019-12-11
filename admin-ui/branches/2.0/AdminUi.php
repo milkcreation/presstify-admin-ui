@@ -1,12 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace tiFy\Plugins\AdminUi;
+
+use WP_Admin_Bar;
 
 /**
  * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\AdminUi
- * @version 2.0.13
+ * @version 2.0.14
  *
  * USAGE :
  * Activation
@@ -42,22 +44,28 @@ class AdminUi
     public function __construct()
     {
         add_action('admin_bar_menu', function () {
-            /** @var \WP_Admin_Bar $wp_admin_bar */
-            if ($admin_bar_menu_logo = config('admin-ui.admin_bar_menu_logo', [])) :
+            /** @var WP_Admin_Bar $wp_admin_bar */
+            if ($admin_bar_menu_logo = config('admin-ui.admin_bar_menu_logo', [])) {
                 $wp_admin_bar->remove_menu('wp-logo');
 
-                foreach ($admin_bar_menu_logo as $node) :
-                    if (!empty($node['group'])) :
+                foreach ($admin_bar_menu_logo as $node) {
+                    if (!empty($node['group'])) {
                         $wp_admin_bar->add_group($node);
-                    else :
+                    } else {
                         $wp_admin_bar->add_menu($node);
-                    endif;
-                endforeach;
-            endif;
+                    }
+                }
+            }
         }, 11);
 
         add_filter('admin_footer_text', function ($text = '') {
             return config('admin-ui.admin_footer_text', '') ? : $text;
         }, 999999);
+
+        add_action('wp', function () {
+            if (config('admin-ui.disable_dns_prefetch', false)) {
+                remove_action('wp_head', 'wp_resource_hints', 2);
+            }
+        });
     }
 }
