@@ -66,6 +66,13 @@ return [
     'disable_post_tag'          => false,
 
     /**
+     * Désactivation de la prise en charge de préchargement des librairies CDN.
+     *
+     * @var boolean
+     */
+    'disable_dns_prefetch'          => false,
+
+    /**
      * Désactivation de la prise en charge de l'Api Rest Wordpress (webservices).
      *
      * @var boolean
