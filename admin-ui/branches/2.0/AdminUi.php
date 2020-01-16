@@ -8,7 +8,7 @@ use WP_Admin_Bar;
  * @desc Extension PresstiFy de gestion l'interface d'administration de Wordpress.
  * @author Jordy Manner <jordy@milkcreation.fr>
  * @package tiFy\Plugins\AdminUi
- * @version 2.0.14
+ * @version 2.0.15
  *
  * USAGE :
  * Activation
