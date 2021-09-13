@@ -1,8 +1,8 @@
-#Admin Ui
+# Admin Ui
 
 Gestion de l'interface d'administration de Wordpress.
 
-##Installation
+## Installation
 
 Dans config/app.php ajouter **AdminUiServiceProvider** à la liste des fournisseurs de services chargés automatiquement 
 par l'application.
@@ -19,42 +19,42 @@ return [
 ];
 ```
 
-##Configuration
+## Configuration
 
 Dans le dossier de config, créer le fichier **admin-ui.php**.
 
-###admin_bar_menu_logo
+### admin_bar_menu_logo
 **@type array**
 
 Permet de personnaliser l'entrée de menu "Wordpress" de la barre d'administration.
 
-###admin_footer_text
+### admin_footer_text
 **@type string**
 
 Permet de personnaliser le texte du pied de page de l'interface d'administration.
 
-###disable_comment
+### disable_comment
 **@type boolean**
 
 Permet de désactiver la prise en charge des commentaires.
 
-###disable_embed
+### disable_embed
 **@type boolean**
 
 Permet de désactiver la prise en charge de l'intégration des contenus fournis par les service tiers (Youtube, 
 Facebook, Twitter ...).
 
-###disable_emoji
+### disable_emoji
 **@type boolean**
 
 Permet de désactiver la prise en charge de l'affichage des Emojis.
 
-###disable_meta_tag
+### disable_meta_tag
 **@type boolean**
 
 Permet de désactiver la prise en charge des meta tags de Wordpress.
 
-###Exemple de fichier de configuration
+### Exemple de fichier de configuration
 
 ```php
 <?php
