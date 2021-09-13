@@ -9,20 +9,14 @@
     "e-commerce",
     "woocommerce"
   ],
-  "homepage": "https://svn.tigreblanc.fr/presstify-plugins/admin-ui",
-  "time": "2020-02-07",
+  "homepage": "https://github.com/milkcreation/presstify-admin-ui.git",
+  "time": "2021-09-13",
   "license": "proprietary",
   "authors": [
     {
       "name": "Jordy Manner",
       "email": "jordy.manner@milkcreation.fr",
       "role": "Developper"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://composer.tigreblanc.fr/presstify"
     }
   ],
   "require": {
